@@ -1,17 +1,3 @@
-@import url(https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined);
-body {
-    background-color: #201c1c; /* Fondo oscuro */
-    color: white; /* Texto blanco para mejor legibilidad */
-    margin: 0;
-    font-family: Arial, sans-serif;
-  }
-  
-  main {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  header, footer {
-    background-color: rgba(0, 0, 0, 0.7); /* Fondo semi-transparente para header y footer */
-  }
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

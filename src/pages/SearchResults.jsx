@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
-import { getPopularMovies, getGenres } from "../services/apiService";
+import { useParams } from "react-router-dom";
+import { searchMovies, getGenres } from "../services/apiService";
 import MovieCard from "../components/movie/MovieCard";
 import { Spin, Alert } from "antd";
 
-const ExplorePage = () => {
+const SearchResults = () => {
+  const { query } = useParams();
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchMovies = async () => {
+    const fetchResults = async () => {
       try {
+        // Obtener la lista de géneros primero
         const genreList = await getGenres();
         const genreMap = genreList.reduce((acc, genre) => {
           acc[genre.id] = genre.name;
@@ -20,9 +23,10 @@ const ExplorePage = () => {
 
         setGenres(genreMap);
 
-        const data = await getPopularMovies();
-        if (!data.length) throw new Error("No hay películas disponibles.");
-        setMovies(data);
+        // Luego, obtener las películas de la búsqueda
+        const results = await searchMovies(query);
+        if (results.length === 0) throw new Error("No se encontraron resultados.");
+        setMovies(results);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -30,12 +34,12 @@ const ExplorePage = () => {
       }
     };
 
-    fetchMovies();
-  }, []);
+    fetchResults();
+  }, [query]);
 
   return (
     <div className="container mx-auto px-8 py-12">
-      <h1 className="text-3xl font-bold text-white mb-6">Explorar Películas</h1>
+      <h1 className="text-3xl font-bold text-white mb-6">Resultados para: "{query}"</h1>
 
       {loading && (
         <div className="flex justify-center items-center h-64">
@@ -56,4 +60,4 @@ const ExplorePage = () => {
   );
 };
 
-export default ExplorePage;
+export default SearchResults;

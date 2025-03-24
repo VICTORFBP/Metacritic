@@ -1,19 +1,36 @@
 import { Link } from "react-router-dom";
-import { UserOutlined, SearchOutlined } from "@ant-design/icons";
+import { UserOutlined } from "@ant-design/icons";
 import logo from "../../assets/logoapp.png";
-import { Input, Button } from "antd";
+import { Button } from "antd";
+import SearchBar from "../movie/SearchBar";
+
 const Navbar = () => {
   return (
-    <header className="flex items-center justify-between bg-gray-900 p-4 text-white">
-      <img src={logo} alt="logo" className="h-10" />
-      <nav className="flex gap-4">
-        <Link to="/" className="hover:text-blue-400">Inicio</Link>
-        <Link to="/movies" className="hover:text-blue-400">Películas</Link>
-        <Link to="/series" className="hover:text-blue-400">Series</Link>
-      </nav>
-      <div className="flex items-center gap-2">
-        <Input placeholder="Buscar aquí..." prefix={<SearchOutlined />} className="bg-gray-800 text-white" />
-        <Button type="primary" shape="circle" icon={<UserOutlined />} />
+    <header className="bg-background bg-opacity-90 fixed w-full top-0 z-50 shadow-lg backdrop-blur-md">
+      <div className="container mx-auto px-8 py-4 flex justify-between items-center">
+        {/* Logo */}
+        <Link to="/" className="flex items-center gap-3">
+          <img src={logo} alt="logo" className="h-12" />
+          <span className="text-textPrimary text-2xl font-bold">Metacritic</span>
+        </Link>
+
+        {/* Menú de navegación */}
+        <nav className="flex gap-8 text-lg text-textPrimary">
+          <Link to="/" className="hover:text-linkHover transition">Inicio</Link>
+          <Link to="/movies" className="hover:text-linkHover transition">Películas</Link>
+          <Link to="/series" className="hover:text-linkHover transition">Series</Link>
+        </nav>
+
+        {/* Barra de búsqueda y usuario */}
+        <div className="flex items-center gap-4">
+          <SearchBar />
+          <Button
+            type="primary"
+            shape="circle"
+            icon={<UserOutlined />}
+            className="bg-button hover:bg-buttonHover border-none"
+          />
+        </div>
       </div>
     </header>
   );

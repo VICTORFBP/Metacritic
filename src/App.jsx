@@ -1,15 +1,20 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "./components/common/Navbar";
+import Footer from "./components/common/Footer";
 import "./main.css";
+
 const App = () => {
   return (
-    <main>
+    <div className="bg-background text-textPrimary min-h-screen">
       <Navbar />
-      <div>
+      <main className="flex-grow">
         <Outlet />
-      </div>
-    </main>
+      </main>
+      <Footer />
+    </div>
   );
 };
+
+
 export default App;

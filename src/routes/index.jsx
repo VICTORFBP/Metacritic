@@ -2,20 +2,22 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import HomePage from "../pages/HomePage";
 import ExplorePage from "../pages/ExplorePage";
+import MovieDetailsPage from "../pages/MovieDetailsPage";
+import ProfilePage from "../pages/ProfilePage";
+import SearchResults from "../pages/SearchResults";
+
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App/>,
+    element: <App />,
     children: [
-      {
-        path: "",
-        element: <HomePage/>,
-      },
-      {
-        path : "explore",
-        element : <ExplorePage/>
-      }
+      { path: "", element: <HomePage /> },
+      { path: "explore", element: <ExplorePage /> },
+      { path: "movie/:id", element: <MovieDetailsPage /> },
+      { path: "profile", element: <ProfilePage /> },
+      { path: "search/:query", element: <SearchResults /> },
     ],
   },
 ]);
+
 export default router;

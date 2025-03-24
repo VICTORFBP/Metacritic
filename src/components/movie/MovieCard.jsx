@@ -5,61 +5,70 @@ const { Meta } = Card;
 
 // Función para truncar texto
 const truncateText = (text, limit) => {
-  return text.length > limit ? text.substring(0, limit) + "..." : text;
+  return text?.length > limit ? text.substring(0, limit) + "..." : text || "Sin descripción";
 };
 
-// Colores para los géneros
+// Colores mejorados para los géneros
 const genreColors = {
-  Acción: "bg-red-500/20 text-red-300",
-  Aventura: "bg-blue-500/20 text-blue-300",
-  Ciencia_ficción: "bg-green-500/20 text-green-300",
-  Drama: "bg-purple-500/20 text-purple-300",
-  Fantasía: "bg-yellow-500/20 text-yellow-300",
-  Suspense: "bg-pink-500/20 text-pink-300",
-  Comedia: "bg-indigo-500/20 text-indigo-300",
+  Acción: "bg-red-600/30 text-red-300",
+  Aventura: "bg-blue-600/30 text-blue-300",
+  Ciencia_ficción: "bg-green-600/30 text-green-300",
+  Drama: "bg-purple-600/30 text-purple-300",
+  Fantasía: "bg-yellow-600/30 text-yellow-300",
+  Suspense: "bg-pink-600/30 text-pink-300",
+  Comedia: "bg-indigo-600/30 text-indigo-300",
 };
 
-const MovieCard = ({ movie, genres }) => {
+const MovieCard = ({ movie, genres = {} }) => {
   return (
     <Card
       hoverable
       cover={
-        <img
-          alt={movie.title}
-          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-          className="rounded-t-lg"
-        />
+        movie.poster_path ? (
+          <img
+            alt={movie.title}
+            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+            className="rounded-t-lg"
+          />
+        ) : (
+          <div className="bg-gray-700 w-full h-72 flex items-center justify-center text-gray-300">
+            Imagen no disponible
+          </div>
+        )
       }
       className="w-full sm:w-64 md:w-72 bg-gray-800 text-white shadow-lg transition-transform duration-300 transform hover:scale-105"
     >
-      {/* Título de la película */}
       <Meta 
-        title={<span className="text-white font-semibold">{movie.title}</span>} 
-        description={<p className="text-gray-300">{truncateText(movie.overview || "Sin descripción", 100)}</p>} 
+        title={<span className="text-white font-bold">{movie.title || "Título no disponible"}</span>} 
+        description={<p className="text-gray-300">{truncateText(movie.overview, 100)}</p>} 
       />
 
       {/* Año de lanzamiento */}
-      <p className="text-gray-400 mt-3">🎬 Año: {movie.release_date ? movie.release_date.split("-")[0] : "Desconocido"}</p>
+      <p className="text-gray-400 mt-3">📅 Año: {movie.release_date ? movie.release_date.split("-")[0] : "Desconocido"}</p>
 
-      {/* Calificación con estrellas */}
-      <Rate disabled defaultValue={movie.vote_average / 2} className="mt-2" />
+      {/* Calificación */}
+      <Rate disabled defaultValue={movie.vote_average ? movie.vote_average / 2 : 0} className="mt-2" />
 
-      {/* Géneros con colores dinámicos */}
+      {/* Géneros con mejor contraste */}
       <div className="mt-2 flex flex-wrap gap-1">
-        {movie.genre_ids?.map((genreId) => (
-          <Tag 
-            key={genreId} 
-            className={`px-2 py-1 rounded-md text-sm ${genreColors[genres[genreId]] || "bg-gray-600/20 text-gray-300"}`}
-          >
-            {genres[genreId] || "Desconocido"}
-          </Tag>
-        ))}
+        {Array.isArray(movie.genre_ids) && movie.genre_ids.length > 0 ? (
+          movie.genre_ids.map((genreId) => (
+            <Tag 
+              key={genreId} 
+              className={`px-2 py-1 rounded-md text-sm ${genreColors[genres[genreId]] || "bg-gray-700 text-gray-300"}`}
+            >
+              {genres[genreId] || "Desconocido"}
+            </Tag>
+          ))
+        ) : (
+          <p className="text-gray-400 text-sm">Género no disponible</p>
+        )}
       </div>
 
-      {/* Idioma original */}
-      <p className="text-gray-400 mt-3">🌍 Idioma: {movie.original_language.toUpperCase()}</p>
+      {/* Idioma */}
+      <p className="text-gray-400 mt-3">🌍 Idioma: {movie.original_language ? movie.original_language.toUpperCase() : "N/A"}</p>
 
-      {/* Botón de detalles */}
+      {/* Enlace para ver detalles */}
       <Link to={`/movie/${movie.id}`} className="text-blue-400 hover:text-blue-300 hover:underline block mt-3 font-semibold">
         ➤ Ver detalles
       </Link>

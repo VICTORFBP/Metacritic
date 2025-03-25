@@ -1,22 +1,26 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getMovieDetails } from "../services/apiService";
+import { getMediaDetails, getMediaTrailer } from "../services/apiService";
 import { Spin, Alert, Tag, Button } from "antd";
 import { StarFilled, PlayCircleOutlined } from "@ant-design/icons";
 
 const MovieDetailsPage = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
+  const [trailerKey, setTrailerKey] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
       try {
-        const data = await getMovieDetails(id);
-        if (!data)
-          throw new Error("No se encontraron detalles para esta película.");
+        const data = await getMediaDetails(id, "movie");
+        if (!data) throw new Error("No se encontraron detalles para esta película.");
         setMovie(data);
+
+        // Obtener tráiler
+        const trailer = await getMediaTrailer(id, "movie");
+        setTrailerKey(trailer);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -57,10 +61,10 @@ const MovieDetailsPage = () => {
         position: "relative",
       }}
     >
-      {/* Capa de oscurecimiento para mejorar la legibilidad */}
+      {/* Capa de oscurecimiento */}
       <div className="absolute inset-0 bg-black opacity-60"></div>
 
-      {/* Contenido principal */}
+      {/* Contenedor principal */}
       <div className="relative bg-gray-900 bg-opacity-90 p-6 rounded-lg shadow-lg max-w-4xl w-full flex flex-col md:flex-row">
         {/* Imagen de la película */}
         <img
@@ -104,9 +108,8 @@ const MovieDetailsPage = () => {
           </p>
 
           {/* Descripción */}
-          <p className="text-gray-300 text-sm leading-6 max-w-lg">
-            {movie.overview ||
-              "No hay descripción disponible para esta película."}
+          <p className="text-gray-300 text-sm leading-6 max-w-lg mb-4">
+            {movie.overview || "No hay descripción disponible para esta película."}
           </p>
 
           {/* Botón de streaming */}
@@ -122,6 +125,29 @@ const MovieDetailsPage = () => {
             </Button>
           )}
         </div>
+      </div>
+
+      {/* Contenedor del tráiler */}
+      <div className="relative bg-gray-900 bg-opacity-90 p-6 rounded-lg shadow-lg max-w-4xl w-full mt-8">
+        <h2 className="text-2xl font-bold text-white mb-4">🎬 Tráiler</h2>
+        {trailerKey ? (
+          <div className="flex justify-center">
+            <iframe
+              width="800"
+              height="450"
+              src={`https://www.youtube.com/embed/${trailerKey}`}
+              title="Movie Trailer"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="rounded-lg shadow-lg w-full"
+            ></iframe>
+          </div>
+        ) : (
+          <p className="text-gray-400 text-center">
+            ❌ No hay tráiler disponible para esta película.
+          </p>
+        )}
       </div>
     </div>
   );

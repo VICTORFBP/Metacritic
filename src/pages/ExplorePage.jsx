@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getPopularMovies, getGenres } from "../services/apiService";
-import MovieCard from "../components/movie/MovieCard";
+import { getPopularMedia, getGenres } from "../services/apiService";
+import MediaCard from "../components/movie/MediaCard";
 import { Spin, Alert } from "antd";
 
 const ExplorePage = () => {
@@ -12,7 +12,7 @@ const ExplorePage = () => {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const genreList = await getGenres();
+        const genreList = await getGenres("movie"); // Especificar tipo "movie"
         const genreMap = genreList.reduce((acc, genre) => {
           acc[genre.id] = genre.name;
           return acc;
@@ -20,7 +20,7 @@ const ExplorePage = () => {
 
         setGenres(genreMap);
 
-        const data = await getPopularMovies();
+        const data = await getPopularMedia("movie"); // Especificar tipo "movie"
         if (!data.length) throw new Error("No hay películas disponibles.");
         setMovies(data);
       } catch (err) {
@@ -48,7 +48,7 @@ const ExplorePage = () => {
       {!loading && !error && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {movies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} genres={genres} />
+            <MediaCard key={movie.id} movie={movie} genres={genres} />
           ))}
         </div>
       )}

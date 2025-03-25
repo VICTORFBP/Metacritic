@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { searchMovies, getGenres } from "../services/apiService";
-import MovieCard from "../components/movie/MovieCard";
+import { searchMedia, getGenres } from "../services/apiService";
+import MediaCard from "../components/movie/MediaCard";
 import { Spin, Alert } from "antd";
 
 const SearchResults = () => {
-  const { query } = useParams();
-  const [movies, setMovies] = useState([]);
+  const { query, type } = useParams();
+  const [media, setMedia] = useState([]);
   const [genres, setGenres] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -14,8 +14,7 @@ const SearchResults = () => {
   useEffect(() => {
     const fetchResults = async () => {
       try {
-        // Obtener la lista de géneros primero
-        const genreList = await getGenres();
+        const genreList = await getGenres(type);
         const genreMap = genreList.reduce((acc, genre) => {
           acc[genre.id] = genre.name;
           return acc;
@@ -23,10 +22,9 @@ const SearchResults = () => {
 
         setGenres(genreMap);
 
-        // Luego, obtener las películas de la búsqueda
-        const results = await searchMovies(query);
+        const results = await searchMedia(query, type);
         if (results.length === 0) throw new Error("No se encontraron resultados.");
-        setMovies(results);
+        setMedia(results);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -35,7 +33,7 @@ const SearchResults = () => {
     };
 
     fetchResults();
-  }, [query]);
+  }, [query, type]);
 
   return (
     <div className="container mx-auto px-8 py-12">
@@ -51,8 +49,8 @@ const SearchResults = () => {
 
       {!loading && !error && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {movies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} genres={genres} />
+          {media.map((item) => (
+            <MediaCard key={item.id} movie={item} genres={genres} />
           ))}
         </div>
       )}

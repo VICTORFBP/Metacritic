@@ -19,14 +19,16 @@ const genreColors = {
   Comedia: "bg-indigo-600/30 text-indigo-300",
 };
 
-const MovieCard = ({ movie, genres = {} }) => {
+const MediaCard = ({ movie, genres = {} }) => {
+  const isMovie = movie.title !== undefined; // Si tiene `title`, es una película; si no, es una serie.
+
   return (
     <Card
       hoverable
       cover={
         movie.poster_path ? (
           <img
-            alt={movie.title}
+            alt={isMovie ? movie.title : movie.name}
             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
             className="rounded-t-lg"
           />
@@ -39,12 +41,14 @@ const MovieCard = ({ movie, genres = {} }) => {
       className="w-full sm:w-64 md:w-72 bg-gray-800 text-white shadow-lg transition-transform duration-300 transform hover:scale-105"
     >
       <Meta 
-        title={<span className="text-white font-bold">{movie.title || "Título no disponible"}</span>} 
+        title={<span className="text-white font-bold">{movie.title || movie.name || "Título no disponible"}</span>} 
         description={<p className="text-gray-300">{truncateText(movie.overview, 100)}</p>} 
       />
 
-      {/* Año de lanzamiento */}
-      <p className="text-gray-400 mt-3">📅 Año: {movie.release_date ? movie.release_date.split("-")[0] : "Desconocido"}</p>
+      {/* Año de lanzamiento (se ajusta para películas y series) */}
+      <p className="text-gray-400 mt-3">
+        📅 Año: {movie.release_date?.split("-")[0] || movie.first_air_date?.split("-")[0] || "Desconocido"}
+      </p>
 
       {/* Calificación */}
       <Rate disabled defaultValue={movie.vote_average ? movie.vote_average / 2 : 0} className="mt-2" />
@@ -68,12 +72,15 @@ const MovieCard = ({ movie, genres = {} }) => {
       {/* Idioma */}
       <p className="text-gray-400 mt-3">🌍 Idioma: {movie.original_language ? movie.original_language.toUpperCase() : "N/A"}</p>
 
-      {/* Enlace para ver detalles */}
-      <Link to={`/movie/${movie.id}`} className="text-blue-400 hover:text-blue-300 hover:underline block mt-3 font-semibold">
+      {/* Enlace para ver detalles (ajustado para películas y series) */}
+      <Link
+        to={`/${isMovie ? "movie" : "tv"}/${movie.id}`}
+        className="text-blue-400 hover:text-blue-300 hover:underline block mt-3 font-semibold"
+      >
         ➤ Ver detalles
       </Link>
     </Card>
   );
 };
 
-export default MovieCard;
+export default MediaCard;

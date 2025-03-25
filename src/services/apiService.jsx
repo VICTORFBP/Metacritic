@@ -10,51 +10,69 @@ const apiService = axios.create({
     "Content-Type": "application/json",
   },
   params: {
-    language: "es-ES",
+    language: "es-MX",
   },
 });
 
-// Obtener películas populares
-export const getPopularMovies = async () => {
+// Obtener contenido popular (películas o series)
+export const getPopularMedia = async (type = "movie", page = 1) => {
   try {
-    const response = await apiService.get("/movie/popular");
+    const response = await apiService.get(`/${type}/popular`, {
+      params: { page },
+    });
     return response.data.results;
   } catch (error) {
-    console.error("Error al obtener películas populares:", error);
+    console.error(`Error al obtener ${type} populares:`, error);
     return [];
   }
 };
 
-// Obtener detalles de una película
-export const getMovieDetails = async (movieId) => {
+// Obtener detalles de una película o serie
+export const getMediaDetails = async (id, type = "movie") => {
   try {
-    const response = await apiService.get(`/movie/${movieId}`);
+    const response = await apiService.get(`/${type}/${id}`);
     return response.data;
   } catch (error) {
-    console.error("Error al obtener detalles de la película:", error);
+    console.error(`Error al obtener detalles de ${type}:`, error);
     return null;
   }
 };
 
-// Buscar películas por nombre
-export const searchMovies = async (query) => {
+// Buscar películas o series por nombre
+export const searchMedia = async (query, type = "multi") => {
   try {
-    const response = await apiService.get("/search/movie", { params: { query } });
+    const response = await apiService.get(`/search/${type}`, {
+      params: { query: encodeURIComponent(query) },
+    });
     return response.data.results;
   } catch (error) {
-    console.error("Error en la búsqueda de películas:", error);
+    console.error("Error en la búsqueda:", error);
     return [];
   }
 };
 
-// Obtener lista de géneros
-export const getGenres = async () => {
+
+// Obtener lista de géneros (películas o series)
+export const getGenres = async (type = "movie") => {
   try {
-    const response = await apiService.get("/genre/movie/list");
+    const response = await apiService.get(`/genre/${type}/list`);
     return response.data.genres;
   } catch (error) {
-    console.error("Error al obtener los géneros:", error);
+    console.error(`Error al obtener géneros de ${type}:`, error);
     return [];
+  }
+};
+
+// Obtener tráiler de una película o serie
+export const getMediaTrailer = async (id, type = "movie") => {
+  try {
+    const response = await apiService.get(`/${type}/${id}/videos`);
+    const videos = response.data.results;
+    const trailer = videos.find(video => video.type === "Trailer" && video.site === "YouTube");
+    return trailer ? trailer.key : null;
+  } catch (error) {
+    console.error(`Error al obtener tráiler de ${type}:`, error);
+    return null;
   }
 };
 

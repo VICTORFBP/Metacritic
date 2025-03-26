@@ -23,6 +23,7 @@ const MediaCard = ({ movie, genres = {} }) => {
   const isMovie = movie.title !== undefined; // Si tiene `title`, es una película; si no, es una serie.
 
   return (
+    <Link to={`/${isMovie ? "movie" : "tv"}/${movie.id}`} asChild>
     <Card
       hoverable
       cover={
@@ -36,9 +37,9 @@ const MediaCard = ({ movie, genres = {} }) => {
           <div className="bg-gray-700 w-full h-72 flex items-center justify-center text-gray-300">
             Imagen no disponible
           </div>
-        )
+        )        
       }
-      className="w-full sm:w-64 md:w-72 bg-gray-800 text-white shadow-lg transition-transform duration-300 transform hover:scale-105"
+      className="border-gray-800 h-[700px] max-h-[700px] sm:w-64 md:w-[280px] bg-gray-800 text-white shadow-lg transition-transform duration-300 transform hover:scale-105"
     >
       <Meta 
         title={<span className="text-white font-bold">{movie.title || movie.name || "Título no disponible"}</span>} 
@@ -53,33 +54,12 @@ const MediaCard = ({ movie, genres = {} }) => {
       {/* Calificación */}
       <Rate disabled defaultValue={movie.vote_average ? movie.vote_average / 2 : 0} className="mt-2" />
 
-      {/* Géneros con mejor contraste */}
-      <div className="mt-2 flex flex-wrap gap-1">
-        {Array.isArray(movie.genre_ids) && movie.genre_ids.length > 0 ? (
-          movie.genre_ids.map((genreId) => (
-            <Tag 
-              key={genreId} 
-              className={`px-2 py-1 rounded-md text-sm ${genreColors[genres[genreId]] || "bg-gray-700 text-gray-300"}`}
-            >
-              {genres[genreId] || "Desconocido"}
-            </Tag>
-          ))
-        ) : (
-          <p className="text-gray-400 text-sm">Género no disponible</p>
-        )}
-      </div>
-
       {/* Idioma */}
       <p className="text-gray-400 mt-3">🌍 Idioma: {movie.original_language ? movie.original_language.toUpperCase() : "N/A"}</p>
 
-      {/* Enlace para ver detalles (ajustado para películas y series) */}
-      <Link
-        to={`/${isMovie ? "movie" : "tv"}/${movie.id}`}
-        className="text-blue-400 hover:text-blue-300 hover:underline block mt-3 font-semibold"
-      >
-        ➤ Ver detalles
-      </Link>
     </Card>
+    
+    </Link>
   );
 };
 

@@ -55,8 +55,8 @@ const HomePage = () => {
   };
 
   return (
-    <div className="mx-auto max-w-screen-2xl px-6 py-8">
-      <h1 className="text-3xl font-bold text-black mb-6 text-center">
+    <div className="mx-auto max-w-screen-2xl px-6 py-32">
+      <h1 className="text-3xl font-bold text-white mb-6 text-center">
         🎬 Películas y Series Destacadas
       </h1>
 

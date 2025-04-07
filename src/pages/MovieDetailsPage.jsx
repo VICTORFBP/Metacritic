@@ -5,20 +5,23 @@ import { Spin, Alert, Tag, Button } from "antd";
 import { StarFilled, PlayCircleOutlined } from "@ant-design/icons";
 
 const MovieDetailsPage = () => {
+  // Obtener el ID de la película desde los parámetros de la URL
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
   const [trailerKey, setTrailerKey] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Efecto para cargar los detalles de la película y el tráiler
   useEffect(() => {
     const fetchMovieDetails = async () => {
       try {
+        // Obtener detalles de la película
         const data = await getMediaDetails(id, "movie");
         if (!data) throw new Error("No se encontraron detalles para esta película.");
         setMovie(data);
 
-        // Obtener tráiler
+        // Obtener tráiler de la película
         const trailer = await getMediaTrailer(id, "movie");
         setTrailerKey(trailer);
       } catch (err) {
@@ -31,6 +34,7 @@ const MovieDetailsPage = () => {
     fetchMovieDetails();
   }, [id]);
 
+  // Mostrar indicador de carga
   if (loading)
     return (
       <div className="flex justify-center items-center h-screen">
@@ -38,6 +42,7 @@ const MovieDetailsPage = () => {
       </div>
     );
 
+  // Mostrar mensaje de error
   if (error)
     return (
       <Alert

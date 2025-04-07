@@ -10,17 +10,16 @@ import SeriesPage from "../pages/SeriesPage";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <App />,
+    path: "/", // Ruta principal
+    element: <App />, // Componente principal que envuelve las rutas hijas
     children: [
-      { path: "", element: <HomePage /> },
-      { path: "explore", element: <ExplorePage /> },
-      { path: "profile", element: <ProfilePage /> },
-      { path: "search/:query", element: <SearchResults /> },
-      { path: "movie/:id", element: <MovieDetailsPage /> },
-      { path: "/movies", element: <MoviesPage /> },
-      { path: "/series", element: <SeriesPage /> },
-      
+      { path: "", element: <HomePage /> }, // Página de inicio
+      { path: "explore", element: <ExplorePage /> }, // Página para explorar contenido
+      { path: "profile", element: <ProfilePage /> }, // Página de perfil del usuario
+      { path: "search/:query", element: <SearchResults /> }, // Resultados de búsqueda dinámicos
+      { path: "movie/:id", element: <MovieDetailsPage /> }, // Detalles de una película específica
+      { path: "/movies", element: <MoviesPage /> }, // Página de listado de películas
+      { path: "/series", element: <SeriesPage /> }, // Página de listado de series
     ],
   },
 ]);

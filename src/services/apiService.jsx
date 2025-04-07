@@ -14,7 +14,12 @@ const apiService = axios.create({
   },
 });
 
-// Obtener contenido popular (películas o series)
+/**
+ * Obtener contenido popular (películas o series).
+ * @param {string} type - Tipo de contenido ("movie" para películas, "tv" para series).
+ * @param {number} page - Número de página para la paginación.
+ * @returns {Promise<Array>} Lista de contenido popular.
+ */
 export const getPopularMedia = async (type = "movie", page = 1) => {
   try {
     const response = await apiService.get(`/${type}/popular`, {
@@ -27,7 +32,12 @@ export const getPopularMedia = async (type = "movie", page = 1) => {
   }
 };
 
-// Obtener detalles de una película o serie
+/**
+ * Obtener detalles de una película o serie.
+ * @param {number} id - ID del contenido.
+ * @param {string} type - Tipo de contenido ("movie" para películas, "tv" para series).
+ * @returns {Promise<Object|null>} Detalles del contenido o null si ocurre un error.
+ */
 export const getMediaDetails = async (id, type = "movie") => {
   try {
     const response = await apiService.get(`/${type}/${id}`);
@@ -38,7 +48,12 @@ export const getMediaDetails = async (id, type = "movie") => {
   }
 };
 
-// Buscar películas o series por nombre
+/**
+ * Buscar películas o series por nombre.
+ * @param {string} query - Término de búsqueda.
+ * @param {string} type - Tipo de búsqueda ("multi", "movie" o "tv").
+ * @returns {Promise<Array>} Resultados de la búsqueda.
+ */
 export const searchMedia = async (query, type = "multi") => {
   try {
     const response = await apiService.get(`/search/${type}`, {
@@ -51,8 +66,11 @@ export const searchMedia = async (query, type = "multi") => {
   }
 };
 
-
-// Obtener lista de géneros (películas o series)
+/**
+ * Obtener lista de géneros (películas o series).
+ * @param {string} type - Tipo de contenido ("movie" para películas, "tv" para series).
+ * @returns {Promise<Array>} Lista de géneros.
+ */
 export const getGenres = async (type = "movie") => {
   try {
     const response = await apiService.get(`/genre/${type}/list`);
@@ -63,7 +81,12 @@ export const getGenres = async (type = "movie") => {
   }
 };
 
-// Obtener tráiler de una película o serie
+/**
+ * Obtener tráiler de una película o serie.
+ * @param {number} id - ID del contenido.
+ * @param {string} type - Tipo de contenido ("movie" para películas, "tv" para series).
+ * @returns {Promise<string|null>} Clave del tráiler en YouTube o null si no se encuentra.
+ */
 export const getMediaTrailer = async (id, type = "movie") => {
   try {
     const response = await apiService.get(`/${type}/${id}/videos`);

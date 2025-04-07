@@ -5,6 +5,7 @@ import { Spin, Alert, Pagination } from "antd";
 import { getPopularMedia, getGenres } from "../services/apiService";
 
 const HomePage = () => {
+  // Estados para almacenar datos de películas, series, géneros, y estados de carga/error
   const [movies, setMovies] = useState([]);
   const [series, setSeries] = useState([]);
   const [genres, setGenres] = useState({});
@@ -12,6 +13,7 @@ const HomePage = () => {
   const [error, setError] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
 
+  // Obtener el número de página actual desde los parámetros de búsqueda
   const currentPage = parseInt(searchParams.get("page")) || 1;
 
   useEffect(() => {
@@ -41,37 +43,45 @@ const HomePage = () => {
         setMovies(moviesData);
         setSeries(seriesData);
       } catch (err) {
+        // Manejar errores durante la carga de datos
         setError(err.message || "Error al cargar el contenido.");
       } finally {
+        // Finalizar el estado de carga
         setLoading(false);
       }
     };
 
+    // Llamar a la función para cargar datos al montar el componente o cambiar de página
     fetchData();
   }, [currentPage]);
 
+  // Manejar el cambio de página en la paginación
   const handlePageChange = (page) => {
     setSearchParams({ page });
   };
 
   return (
     <div className="mx-auto max-w-screen-2xl px-6 py-32">
+      {/* Título principal */}
       <h1 className="text-3xl font-bold text-white mb-6 text-center">
         🎬 Películas y Series Destacadas
       </h1>
 
+      {/* Mostrar un spinner mientras se cargan los datos */}
       {loading && (
         <div className="flex justify-center items-center h-64">
           <Spin size="large" />
         </div>
       )}
 
+      {/* Mostrar un mensaje de error si ocurre un problema */}
       {error && (
         <div className="mb-4">
           <Alert message={error} type="error" showIcon />
         </div>
       )}
 
+      {/* Mostrar contenido solo si no hay errores y no está cargando */}
       {!loading && !error && (
         <>
           {/* Sección de Películas */}
@@ -96,7 +106,7 @@ const HomePage = () => {
         </>
       )}
 
-      {/* Paginación */}
+      {/* Paginación para navegar entre páginas */}
       <div className="flex justify-center mt-6">
         <Pagination
           current={currentPage}

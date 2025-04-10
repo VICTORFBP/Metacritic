@@ -11,25 +11,35 @@ const Navbar = () => {
         {/* Logo */}
         <Link to="/" className="flex items-center gap-3">
           <img src={logo} alt="logo" className="h-12" />
-          <span className="text-textPrimary text-2xl font-bold">Metacritic</span>
+          <span className="text-textPrimary text-2xl font-bold">
+            Metacritic
+          </span>
         </Link>
 
         {/* Menú de navegación */}
         <nav className="flex gap-8 text-lg text-textPrimary">
-          <Link to="/" className="hover:text-linkHover transition">Inicio</Link>
-          <Link to="/movies" className="hover:text-linkHover transition">Películas</Link>
-          <Link to="/series" className="hover:text-linkHover transition">Series</Link>
+          <Link to="/" className="hover:text-linkHover transition">
+            Inicio
+          </Link>
+          <Link to="/movies" className="hover:text-linkHover transition">
+            Películas
+          </Link>
+          <Link to="/series" className="hover:text-linkHover transition">
+            Series
+          </Link>
         </nav>
 
         {/* Barra de búsqueda y usuario */}
         <div className="flex items-center gap-4">
           <SearchBar />
-          <Button
-            type="primary"
-            shape="circle"
-            icon={<UserOutlined />}
-            className="bg-button hover:bg-buttonHover border-none"
-          />
+          <Link to="login" asChild>
+            <Button
+              type="primary"
+              shape="circle"
+              icon={<UserOutlined />}
+              className="bg-button hover:bg-buttonHover border-none"
+            />
+          </Link>
         </div>
       </div>
     </header>

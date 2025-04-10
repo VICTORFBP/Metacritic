@@ -17,7 +17,11 @@ server.get("/comment/user/:id", (req, res) => {
   const sql = `SELECT comment_movieid, comment_moviename, comment_content, comment_rating FROM comments WHERE id_user=${user_id}`;
 
   database.query(sql, (err, data) => {
-    return res.json(err ? err : data)
+    if (err) {
+      console.log(err)
+      return []
+    };
+    return res.json(data)
   })
 })
 
@@ -34,7 +38,11 @@ server.get("/comment/movie/:id", (req, res) => {
   `;
 
   database.query(sql, (err, data) => {
-    return res.json(err ? err : data)
+    if (err) {
+      console.log(err)
+      return []
+    };
+    return res.json(data)
   })
 })
 
@@ -42,7 +50,12 @@ server.get("/comments/", (req, res) => {
   const sql = "SELECT comment_movieid, comment_moviename, comment_content, comment_rating FROM comments";
 
   database.query(sql, (err, data) => {
-    return res.json(err ? err : data)
+    if (err) {
+      console.log(err)
+      return []
+    };
+
+    return res.json(data)
   })
 })
 
@@ -52,7 +65,11 @@ server.get("/user/:user_id", (req, res) => {
   const sql = `SELECT user_name, user_age, user_lastname FROM users WHERE user_id='${user_id}'`
 
   database.query(sql, (err, data) => {
-    return res.json(err ? err : data)
+    if (err) {
+      console.log(err)
+      return []
+    };
+    return res.json(data)
   })
 })
 

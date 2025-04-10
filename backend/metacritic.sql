@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-04-2025 a las 05:45:02
+-- Tiempo de generación: 10-04-2025 a las 19:08:01
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -32,6 +32,7 @@ CREATE TABLE `comments` (
   `comment_rating` int(2) NOT NULL,
   `comment_content` text NOT NULL,
   `comment_movieid` int(11) NOT NULL,
+  `comment_moviename` text NOT NULL,
   `id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -39,49 +40,23 @@ CREATE TABLE `comments` (
 -- Volcado de datos para la tabla `comments`
 --
 
-INSERT INTO `comments` (`comment_id`, `comment_rating`, `comment_content`, `comment_movieid`, `id_user`) VALUES
-(1, 1, 'Esta adaptación es un insulto al clásico animado. ¿Dónde quedó la magia de Disney? Parece una parodia', 447273, 2),
-(2, 1, 'La peor adaptación live action que ha hecho Disney. Blancanieves parece una influencer de TikTok, no', 447273, 3),
-(3, 1, 'Horrible casting. La actriz de Blancanieves no tiene ni la inocencia ni el carisma del personaje ori', 447273, 4),
-(4, 1, 'Destrozaron completamente la historia. Los cambios no añaden nada, solo arruinan lo que hacía especi', 447273, 5),
-(5, 1, 'Los enanitos son ridículos. Parecen extras de una película clase B. Vergonzoso.', 447273, 6),
-(6, 1, 'La Reina Malvada es el único personaje decente, pero ni siquiera ella salva este desastre cinematogr', 447273, 7),
-(7, 1, 'Disney debería dejar de hacer estos remakes. Solo demuestran su falta total de ideas originales.', 447273, 8),
-(8, 1, 'Ni mis hijos de 5 años quisieron verla completa. Aburrida, predecible y mal actuada.', 447273, 9),
-(9, 1, 'Los efectos especiales parecen de los 90. ¿En qué gastaron el presupuesto?', 447273, 10),
-(10, 1, 'La banda sonora es un crimen contra las canciones originales. Autotune por todos lados.', 447273, 1),
-(11, 1, 'Blancanieves pasa de ser un personaje icónico a una protagonista plana sin personalidad.', 447273, 2),
-(12, 1, 'La escena del beso es tan forzada que da vergüenza ajena. Cero química entre los actores.', 447273, 3),
-(13, 1, 'El guión parece escrito por un algoritmo. Diálogos antinaturales y situaciones absurdas.', 447273, 4),
-(14, 1, '2 horas de mi vida que nunca recuperaré. Hasta el original de 1937 tiene mejor animación que estos e', 447273, 5),
-(15, 1, 'El único mérito de esta película es que me hizo apreciar más la versión animada. Pésima en todos los', 447273, 6),
-(16, 1, 'Esta adaptación es un insulto al clásico animado. ¿Dónde quedó la magia de Disney? Parece una parodia barata.', 447273, 2),
-(17, 1, 'La peor adaptación live action que ha hecho Disney. Blancanieves parece una influencer de TikTok, no una princesa de cuento.', 447273, 3),
-(18, 1, 'Horrible casting. La actriz de Blancanieves no tiene ni la inocencia ni el carisma del personaje original.', 447273, 4),
-(19, 1, 'Destrozaron completamente la historia. Los cambios no añaden nada, solo arruinan lo que hacía especial al original.', 447273, 5),
-(20, 1, 'Los enanitos son ridículos. Parecen extras de una película clase B. Vergonzoso.', 447273, 6),
-(21, 1, 'La Reina Malvada es el único personaje decente, pero ni siquiera ella salva este desastre cinematográfico.', 447273, 7),
-(22, 1, 'Disney debería dejar de hacer estos remakes. Solo demuestran su falta total de ideas originales.', 447273, 8),
-(23, 1, 'Ni mis hijos de 5 años quisieron verla completa. Aburrida, predecible y mal actuada.', 447273, 9),
-(24, 1, 'Los efectos especiales parecen de los 90. ¿En qué gastaron el presupuesto?', 447273, 10),
-(25, 1, 'La banda sonora es un crimen contra las canciones originales. Autotune por todos lados.', 447273, 1),
-(26, 1, 'Blancanieves pasa de ser un personaje icónico a una protagonista plana sin personalidad.', 447273, 2),
-(27, 1, 'La escena del beso es tan forzada que da vergüenza ajena. Cero química entre los actores.', 447273, 3),
-(28, 1, 'El guión parece escrito por un algoritmo. Diálogos antinaturales y situaciones absurdas.', 447273, 4),
-(29, 1, '2 horas de mi vida que nunca recuperaré. Hasta el original de 1937 tiene mejor animación que estos efectos.', 447273, 5),
-(30, 1, 'El único mérito de esta película es que me hizo apreciar más la versión animada. Pésima en todos los aspectos.', 447273, 6),
-(31, 1, 'Esta adaptación es un insulto al clásico animado. ¿Dónde quedó la magia de Disney? Parece una parodi', 447273, 2),
-(32, 1, 'Esta adaptación es un insulto al clásico animado. ¿Dónde quedó la magia de Disney? Parece una parodi', 447273, 2),
-(33, 4, 'La película logra combinar un guión inteligente con secuencias de acción innovadoras. Destaco especialmente la química entre los protagonistas en las escenas dramáticas, aunque hubiera preferido más desarrollo para el villano secundario. La escena del tren en el tercer acto es simplemente cinematográfica.', 950387, 3),
-(34, 5, 'Una obra maestra del cine moderno. Desde la fotografía que juega con los contrastes de color hasta la dirección de arte meticulosa, cada detalle suma. El monólogo del personaje principal en la lluvia quedará grabado en mi memoria por años. ¡Bravo por el equipo de efectos prácticos que le dieron ese realismo crudo!', 950387, 7),
-(35, 3, 'Aunque la premisa inicial prometía originalidad, termina cayendo en clichés del género. Los primeros 40 minutos son intrigantes, pero luego la trama se vuelve predecible. Puntos positivos para el diseño de vestuario y la interpretación de la actriz secundaria, que robó cada escena donde aparecía.', 950387, 2),
-(36, 5, 'Este film redefine lo que esperamos del cine de ciencia ficción. La construcción del mundo futurista es coherente y minuciosa, con tecnología que parece plausible. La subtrama sobre la ética de la inteligencia artificial especialmente me hizo reflexionar días después de verla. ¡Oscar merecido para el director de fotografía!', 950387, 9),
-(37, 2, 'Una decepción considerando el talento del elenco. Los diálogos suenan artificiales y hay escenas clave donde la edición abrupta rompe la inmersión. La secuencia del laboratorio (que duró 15 minutos) pudo haberse resuelto en 5 sin perder impacto. Potencial desperdiciado.', 950387, 5),
-(38, 4, 'Merece múltiples visionados para captar todos los detalles. El uso de simbolismos visuales (como el reloj roto recurrente) añade profundidad filosófica. Sin embargo, el ritmo irregular en el segundo acto podría desanimar a espectadores casuales. La banda sonora electrónica de los años 80 fue una elección arriesgada pero efectiva.', 950387, 1),
-(39, 5, 'Una experiencia sensorial completa. Combinó lo mejor del thriller psicológico con momentos de puro terror existencial. Los planos secuencia en los pasillos oscuros generan una tensión insoportablemente buena. Mención aparte para el diseño de sonido: los efectos direccionales en el cine hacían que literalmente sintieras los susurros detrás de ti.', 950387, 10),
-(40, 3, 'Interesante concepto que no llega a su máximo potencial. Mientras la primera mitad construye una mitología fascinante, el desenlace se siente apresurado y con demasiadas preguntas sin responder. Los efectos CGI en las criaturas son inconsistentes: algunas se ven hiperrealistas mientras otras parecen sacadas de un videojuego viejo.', 950387, 4),
-(41, 4, 'Un viaje visual que desafía las convenciones narrativas. El uso de perspectiva forzada y escenografías prácticas crea un universo onírico único. Aunque algunos giros argumentales requieren demasiada suspensión de la incredulidad, la actuación comprometida del elenco principal mantiene la verosimilitud. El cameo del director en la escena del bar es un guiño divertido para los cinéfilos.', 950387, 8),
-(42, 1, 'Difícil encontrar aspectos positivos. La edición salta entre tres líneas temporales sin ton ni son, confundiendo más que intrigando. Los personajes toman decisiones ilógicas constantemente solo para avanzar la trama. Hasta la mezcla de audio falla, con diálogos ahogados por la música ambiental en momentos cruciales. Una pena, porque la premisa del tráiler parecía prometedora.', 950387, 6);
+INSERT INTO `comments` (`comment_id`, `comment_rating`, `comment_content`, `comment_movieid`, `comment_moviename`, `id_user`) VALUES
+(75, 1, 'El CGI de la Reina esbozando el espejo mágico parece sacado de un videojuego de PS2. ¿Cómo gastaron $200 millones en esto? Las escenas del bosque tienen una iluminación tan plana que parece un escenario de teatro escolar. El príncipe tiene menos carisma que un extra de fondo.', 447273, 'Blanca Nieves', 3),
+(76, 2, 'Los enanos digitales son una pesadilla uncanny valley: movimientos robóticos, expresiones faciales congeladas y voces que no sincronizan. La escena de la mina es tan oscura que literalmente no se ve nada. ¡Hasta el doblaje en español suena artificial!', 447273, 'Blanca Nieves', 8),
+(77, 1, 'La \"reinvención feminista\" del cuento se reduce a Blanca Nieves dando discursos forzados cada 10 minutos. La supuesta \"escena épica\" contra el dragón es un slideshow de efectos mal renderizados. Mención \"honorable\" al vestuario que mezcla épocas históricas sin coherencia.', 447273, 'Blanca Nieves', 5),
+(78, 2, 'Comparado con \"Maléfica\", esto es un insulto al género. Los supuestos giros modernos (como hacer a la Reina víctima del patriarcado) son tan sutiles como un martillazo. La secuencia musical del bosque dura 15 minutos interminables con coreografía de TikTok.', 447273, 'Blanca Nieves', 10),
+(79, 1, 'La dirección de arte confunde \"oscuro\" con \"mal iluminado\". El diseño de la Reina parece copiado de \"Cruella\" pero sin presupuesto. ¿Por qué los animales del bosque tienen ese pelaje plástico que brilla como neón? Hasta el manzana envenenada parece de goma.', 447273, 'Blanca Nieves', 7),
+(80, 3, 'El único mérito: la secuencia inicial del castillo en invierno tiene buena fotografía. Lástima que todo lo demás sea un desastre. Los diálogos entre los enanos suenan generados por IA, especialmente ese chiste sobre NFTs que nadie pidió.', 447273, 'Blanca Nieves', 4),
+(81, 2, 'Edición tan brusca que parece faltar escenas completas. En un momento están en el castillo, luego en un pantano sin transición. La banda sonora usa versiones trap de las canciones clásicas que destruyen la nostalgia. ¿Quién aprobó esto?', 447273, 'Blanca Nieves', 1),
+(82, 1, 'El clímax con el cazador redimido es tan predecible que duele. La Reina muere de la forma más anticlimática imaginable: un corte accidental con su propia corona. Los créditos finales son lo mejor: significan que terminó.', 447273, 'Blanca Nieves', 6),
+(83, 5, 'La secuencia de construcción del refugio contra los creepers es puro ASMR cinematográfico. Cada sonido de bloque colocado está perfectamente sincronizado con la música. Hasta incluyeron el glitch clásico de caminar sobre lava con puerta de hierro.', 950387, 'Una película de Minecraft', 2),
+(84, 4, 'El Nether está visualmente impresionante: lava que fluye con física realista y fortalezas piglin que mantienen el estilo voxel. Aunque el villano \"Herobrine\" es un cliché, la batalla final usando redstone y TNT justifica la entrada.', 950387, 'Una película de Minecraft', 9),
+(85, 3, 'La trama es básica (salvar la aldea del Ender Dragon), pero los detalles técnicos enamoran: desde los biomas cambiantes hasta el fox que ayuda al protagonista. Extraño que no hayan incluido más mobs raros como el warden.', 950387, 'Una película de Minecraft', 5),
+(86, 5, '¡Los créditos son un minijuego jugable en pantalla! Usando tu teléfono como mando, puedes moverte por un mapa estilo Superflat. Es el mejor post-créditos desde Deadpool. Hasta la derrota tiene el sonido \"oof\" clásico.', 950387, 'Una película de Minecraft', 10),
+(87, 2, 'Demasiado tiempo dedicado a enseñar mecánicas básicas del juego (\"mira cómo corto madera\"). La subtrama romántica entre Steve y Alex fuerza química donde no la hay. Los diálogos de los aldeanos son graciosos al principio, luego repetitivos.', 950387, 'Una película de Minecraft', 7),
+(88, 4, 'La textura pack cinematográfico da nuevo life a bloques clásicos: el agua tiene reflejos RTX y las nubes son volumétricas. La escena bajo el mar usando Respiration III es visualmente hipnótica. Los puristas odiarán los shaders, pero a mí me encantó.', 950387, 'Una película de Minecraft', 3),
+(89, 3, 'Buena adaptación aunque con fanservice excesivo. El cameo de Notch se siente forzado y la escena de Minecon dura demasiado. Aprecio que mantuvieran la muerte de Steve sin sangre: fiel al rating E10+', 950387, 'Una película de Minecraft', 8),
+(90, 5, 'El detalle de que los personajes solo muevan los brazos al correr es genial. La música combina tracks clásicos de C418 con nuevas orquestaciones. Hasta el end poem está parcialmente incluido en una escena onírica.', 950387, 'Una película de Minecraft', 4);
 
 -- --------------------------------------------------------
 
@@ -249,7 +224,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
 
 --
 -- AUTO_INCREMENT de la tabla `userpreferences`

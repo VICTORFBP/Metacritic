@@ -14,7 +14,7 @@ const database = mysql.createConnection({
 
 server.get("/comment/user/:id", (req, res) => {
   const user_id = req.params.id;
-  const sql = `SELECT comment_movieid, comment_content, comment_rating FROM comments WHERE id_user=${user_id}`;
+  const sql = `SELECT comment_movieid, comment_moviename, comment_content, comment_rating FROM comments WHERE id_user=${user_id}`;
 
   database.query(sql, (err, data) => {
     return res.json(err ? err : data)
@@ -26,7 +26,7 @@ server.get("/comment/movie/:id", (req, res) => {
 
   const sql = `
     SELECT 
-      comment_content, comment_rating, 
+      comment_content, comment_rating, comment_movieid, comment_moviename,
       user_id, user_name, user_lastname
     FROM comments 
     JOIN users ON id_user = users.user_id 
@@ -39,7 +39,7 @@ server.get("/comment/movie/:id", (req, res) => {
 })
 
 server.get("/comments/", (req, res) => {
-  const sql = "SELECT comment_movieid, comment_content, comment_rating FROM comments";
+  const sql = "SELECT comment_movieid, comment_moviename, comment_content, comment_rating FROM comments";
 
   database.query(sql, (err, data) => {
     return res.json(err ? err : data)

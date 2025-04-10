@@ -163,34 +163,37 @@ const MovieDetailsPage = () => {
         )}
       </div>
 
-      <div className="relative bg-gray-900 bg-opacity-90 p-6 rounded-lg shadow-lg max-w-4xl w-full mt-8">
-        <h2 className="text-2xl font-bold text-white mb-4">💬 Comentarios</h2>
-        {comments.length != 0 ? (
-          comments.map((comment) => (
-            <div className="py-1.5">
-              <article className="text-gray-300 bg-gray-800 bg-opacity-50 shadow-lg rounded-3xl">
-                <div className="flex gap-3 px-5 bg-gray-800 bg-opacity-90 rounded-t-3xl h-8">
-                  <h1 className="text-xl">
-                    {comment.user_name} {comment.user_lastname}
-                  </h1>
-                  <div className="flex items-center text-yellow-400 mb-2 py-4">
-                    <StarFilled className="text-lg mr-2" />
-                    <span className="text-white">
-                      {comment.comment_rating} / 10
-                    </span>
+      <div className="relative text-gray-300 bg-gray-900 bg-opacity-90 rounded-lg shadow-lg max-w-4xl w-full mt-8">
+        <div className="justify-between px-5 py-6">
+          <h2 className="text-2xl font-bold text-white mb-4">💬 Comentarios</h2>
+
+          {comments.length != 0 ? (
+            comments.map((comment) => (
+              <div className="py-1.5 px-5">
+                <article className=" bg-gray-800 bg-opacity-50 shadow-lg rounded-3xl">
+                  <div className="flex gap-3 px-5 bg-gray-800 bg-opacity-90 rounded-t-3xl h-8">
+                    <h1 className="text-xl">
+                      {comment.user_name} {comment.user_lastname}
+                    </h1>
+                    <div className="flex items-center text-yellow-400 mb-2 py-4">
+                      <StarFilled className="text-lg mr-2" />
+                      <span className="text-white">
+                        {comment.comment_rating} / 10
+                      </span>
+                    </div>
                   </div>
-                </div>
-                <p className="px-5 py-2.5 h-full min-h-20">
-                  {comment.comment_content}
-                </p>
-              </article>
-            </div>
-          ))
-        ) : (
-          <p className="text-gray-400 text-center">
-            ❌ No hay comentarios disponible para esta película
-          </p>
-        )}
+                  <p className="px-6 py-3 h-full min-h-20">
+                    {comment.comment_content}
+                  </p>
+                </article>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-400 text-center py-2">
+              ❌ No hay comentarios disponible para esta película
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );

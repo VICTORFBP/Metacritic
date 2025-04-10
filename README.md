@@ -1,12 +1,60 @@
-# React + Vite
+# 🎬 Metacritic
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Metacritic es una aplicación desarrollada con **React** y **Vite** que permite a los usuarios explorar y analizar reseñas de películas, videojuegos y más.
 
-Currently, two official plugins are available:
+## ✨ Características
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🔍 **Búsqueda**: Encuentra contenido por título.
+- ⭐ **Reseñas**: Visualiza puntuaciones y opiniones.
+- ⚡ **Rendimiento**: Interfaz rápida y moderna gracias a Vite.
 
-## Expanding the ESLint configuration
+## 🛠️ Tecnologías utilizadas
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- ⚛️ **React**: Biblioteca para construir interfaces de usuario.
+- ⚡ **Vite**: Herramienta de desarrollo rápida y ligera.
+- 🧹 **ESLint**: Linter para mantener un código limpio y consistente.
+
+## 🚀 Instalación
+
+Sigue estos pasos para configurar el proyecto localmente:
+
+1. 📂 Clona este repositorio:
+   ```bash
+   git clone https://github.com/usuario/metacritic.git
+   ```
+2. 📁 Navega al directorio del proyecto:
+   ```bash
+   cd metacritic
+   ```
+3. 📦 Instala las dependencias:
+   ```bash
+   npm install
+   ```
+4. ▶️ Inicia el servidor de desarrollo:
+   ```bash
+   npm run dev
+   ```
+
+## 🌐 Uso
+
+1. Abre tu navegador y accede a `http://localhost:3000`.
+2. Explora las reseñas y busca contenido de tu interés.
+
+## 🔧 Expandiendo la configuración de ESLint
+
+Si estás desarrollando una aplicación para producción, recomendamos usar **TypeScript** y habilitar reglas de lint con reconocimiento de tipos. Consulta la [plantilla de TypeScript](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) para integrar **TypeScript** y [`typescript-eslint`](https://typescript-eslint.io) en tu proyecto.
+
+## 🤝 Contribuciones
+
+¡Las contribuciones son bienvenidas! Si deseas colaborar:
+
+1. Abre un **issue** para reportar problemas o sugerir mejoras.
+2. Envía un **pull request** con tus cambios.
+
+## 📜 Licencia
+
+Este proyecto está bajo la licencia **MIT**.
+
+---
+
+Hecho con ❤️ por el equipo de desarrollo.

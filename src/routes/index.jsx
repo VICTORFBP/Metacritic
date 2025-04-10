@@ -7,6 +7,8 @@ import ProfilePage from "../pages/ProfilePage";
 import SearchResults from "../pages/SearchResults";
 import MoviesPage from "../pages/MoviePage";
 import SeriesPage from "../pages/SeriesPage";
+import LoginPage from "../pages/LoginPage";
+import RegisterPage from "../pages/RegisterPage";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +22,8 @@ const router = createBrowserRouter([
       { path: "movie/:id", element: <MovieDetailsPage /> }, // Detalles de una película específica
       { path: "/movies", element: <MoviesPage /> }, // Página de listado de películas
       { path: "/series", element: <SeriesPage /> }, // Página de listado de series
+      { path: "/login", element: <LoginPage /> }, // Página de login
+      { path: "/register", element: <RegisterPage /> }, // Página de register
     ],
   },
 ]);

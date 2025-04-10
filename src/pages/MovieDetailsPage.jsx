@@ -168,7 +168,7 @@ const MovieDetailsPage = () => {
         {comments.length != 0 ? (
           comments.map((comment) => (
             <div className="py-1.5">
-              <article className="text-gray-300  bg-gray-800 bg-opacity-50 shadow-lg rounded-3xl">
+              <article className="text-gray-300 bg-gray-800 bg-opacity-50 shadow-lg rounded-3xl">
                 <div className="flex gap-3 px-5 bg-gray-800 bg-opacity-90 rounded-t-3xl h-8">
                   <h1 className="text-xl">
                     {comment.user_name} {comment.user_lastname}
@@ -180,7 +180,9 @@ const MovieDetailsPage = () => {
                     </span>
                   </div>
                 </div>
-                <p className="px-5 py-2.5 h-full">{comment.comment_content}</p>
+                <p className="px-5 py-2.5 h-full min-h-20">
+                  {comment.comment_content}
+                </p>
               </article>
             </div>
           ))

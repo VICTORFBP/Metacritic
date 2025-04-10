@@ -27,7 +27,7 @@ server.get("/comment/movie/:id", (req, res) => {
   const sql = `
     SELECT 
       comment_content, comment_rating, 
-      user_name, user_lastname
+      user_id, user_name, user_lastname
     FROM comments 
     JOIN users ON id_user = users.user_id 
     WHERE comment_movieid=${movie_id}

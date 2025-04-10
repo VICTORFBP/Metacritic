@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { getMediaDetails, getMediaTrailer } from "../services/apiService";
 import { Spin, Alert, Tag, Button } from "antd";
 import { StarFilled, PlayCircleOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
 const API_URL = "http://localhost:8081/comment/movie/";
 
@@ -172,9 +173,11 @@ const MovieDetailsPage = () => {
               <div className="py-1.5 px-5">
                 <article className=" bg-gray-800 bg-opacity-50 shadow-lg rounded-3xl">
                   <div className="flex gap-3 px-5 bg-gray-800 bg-opacity-90 rounded-t-3xl h-8">
-                    <h1 className="text-xl">
-                      {comment.user_name} {comment.user_lastname}
-                    </h1>
+                    <Link to={`/profile/${comment.user_id}`} asChild>
+                      <h1 className="text-xl">
+                        {comment.user_name} {comment.user_lastname}
+                      </h1>
+                    </Link>
                     <div className="flex items-center text-yellow-400 mb-2 py-4">
                       <StarFilled className="text-lg mr-2" />
                       <span className="text-white">

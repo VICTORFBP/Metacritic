@@ -75,7 +75,7 @@ const ProfilePage = () => {
                 </div>
               ))
             ) : (
-              <p className="text-gray-400 text-center min-h-20">
+              <p className="text-gray-400 text-center min-h-12">
                 ❌ No hay comentarios disponible para esta película
               </p>
             )}

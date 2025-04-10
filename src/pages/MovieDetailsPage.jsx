@@ -165,7 +165,7 @@ const MovieDetailsPage = () => {
 
       <div className="relative bg-gray-900 bg-opacity-90 p-6 rounded-lg shadow-lg max-w-4xl w-full mt-8">
         <h2 className="text-2xl font-bold text-white mb-4">💬 Comentarios</h2>
-        {comments == [] ? (
+        {comments.length != 0 ? (
           comments.map((comment) => (
             <div className="py-1.5">
               <article className="text-gray-300  bg-gray-800 bg-opacity-50 shadow-lg rounded-3xl">

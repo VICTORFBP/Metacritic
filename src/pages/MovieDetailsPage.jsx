@@ -4,6 +4,8 @@ import { getMediaDetails, getMediaTrailer } from "../services/apiService";
 import { Spin, Alert, Tag, Button } from "antd";
 import { StarFilled, PlayCircleOutlined } from "@ant-design/icons";
 
+const API_URL = "http://localhost:8081/comment/movie/";
+
 const MovieDetailsPage = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
@@ -15,7 +17,8 @@ const MovieDetailsPage = () => {
     const fetchMovieDetails = async () => {
       try {
         const data = await getMediaDetails(id, "movie");
-        if (!data) throw new Error("No se encontraron detalles para esta película.");
+        if (!data)
+          throw new Error("No se encontraron detalles para esta película.");
         setMovie(data);
 
         // Obtener tráiler
@@ -29,6 +32,15 @@ const MovieDetailsPage = () => {
     };
 
     fetchMovieDetails();
+  }, [id]);
+
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    fetch(API_URL + id)
+      .then((result) => result.json())
+      .then((data) => setComments(data))
+      .catch((err) => console.log(err));
   }, [id]);
 
   if (loading)
@@ -109,7 +121,8 @@ const MovieDetailsPage = () => {
 
           {/* Descripción */}
           <p className="text-gray-300 text-sm leading-6 max-w-lg mb-4">
-            {movie.overview || "No hay descripción disponible para esta película."}
+            {movie.overview ||
+              "No hay descripción disponible para esta película."}
           </p>
 
           {/* Botón de streaming */}
@@ -146,6 +159,34 @@ const MovieDetailsPage = () => {
         ) : (
           <p className="text-gray-400 text-center">
             ❌ No hay tráiler disponible para esta película.
+          </p>
+        )}
+      </div>
+
+      <div className="relative bg-gray-900 bg-opacity-90 p-6 rounded-lg shadow-lg max-w-4xl w-full mt-8">
+        <h2 className="text-2xl font-bold text-white mb-4">💬 Comentarios</h2>
+        {comments == [] ? (
+          comments.map((comment) => (
+            <div className="py-1.5">
+              <article className="text-gray-300  bg-gray-800 bg-opacity-50 shadow-lg rounded-3xl">
+                <div className="flex gap-3 px-5 bg-gray-800 bg-opacity-90 rounded-t-3xl h-8">
+                  <h1 className="text-xl">
+                    {comment.user_name} {comment.user_lastname}
+                  </h1>
+                  <div className="flex items-center text-yellow-400 mb-2 py-4">
+                    <StarFilled className="text-lg mr-2" />
+                    <span className="text-white">
+                      {comment.comment_rating} / 10
+                    </span>
+                  </div>
+                </div>
+                <p className="px-5 py-2.5 h-full">{comment.comment_content}</p>
+              </article>
+            </div>
+          ))
+        ) : (
+          <p className="text-gray-400 text-center">
+            ❌ No hay comentarios disponible para esta película
           </p>
         )}
       </div>

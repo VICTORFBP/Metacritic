@@ -3,6 +3,9 @@ import { useParams } from "react-router-dom";
 import { getMediaDetails, getMediaTrailer } from "../services/apiService";
 import { Spin, Alert, Tag, Button } from "antd";
 import { StarFilled, PlayCircleOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
+
+const API_URL = "http://localhost:8081/comment/movie/";
 
 const MovieDetailsPage = () => {
   // Obtener el ID de la película desde los parámetros de la URL
@@ -18,7 +21,8 @@ const MovieDetailsPage = () => {
       try {
         // Obtener detalles de la película
         const data = await getMediaDetails(id, "movie");
-        if (!data) throw new Error("No se encontraron detalles para esta película.");
+        if (!data)
+          throw new Error("No se encontraron detalles para esta película.");
         setMovie(data);
 
         // Obtener tráiler de la película
@@ -32,6 +36,15 @@ const MovieDetailsPage = () => {
     };
 
     fetchMovieDetails();
+  }, [id]);
+
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    fetch(API_URL + id)
+      .then((result) => result.json())
+      .then((data) => setComments(data))
+      .catch((err) => console.log(err));
   }, [id]);
 
   // Mostrar indicador de carga
@@ -114,7 +127,8 @@ const MovieDetailsPage = () => {
 
           {/* Descripción */}
           <p className="text-gray-300 text-sm leading-6 max-w-lg mb-4">
-            {movie.overview || "No hay descripción disponible para esta película."}
+            {movie.overview ||
+              "No hay descripción disponible para esta película."}
           </p>
 
           {/* Botón de streaming */}
@@ -153,6 +167,41 @@ const MovieDetailsPage = () => {
             ❌ No hay tráiler disponible para esta película.
           </p>
         )}
+      </div>
+
+      <div className="relative text-gray-300 bg-gray-900 bg-opacity-90 rounded-lg shadow-lg max-w-4xl w-full mt-8">
+        <div className="justify-between px-5 py-6">
+          <h2 className="text-2xl font-bold text-white mb-4">💬 Comentarios</h2>
+
+          {comments.length != 0 ? (
+            comments.map((comment) => (
+              <div className="py-1.5 px-5">
+                <article className=" bg-gray-800 bg-opacity-50 shadow-lg rounded-3xl">
+                  <div className="flex gap-3 px-5 bg-gray-800 bg-opacity-90 rounded-t-3xl h-8">
+                    <Link to={`/profile/${comment.user_id}`} asChild>
+                      <h1 className="text-xl">
+                        {comment.user_name} {comment.user_lastname}
+                      </h1>
+                    </Link>
+                    <div className="flex items-center text-yellow-400 mb-2 py-4">
+                      <StarFilled className="text-lg mr-2" />
+                      <span className="text-white">
+                        {comment.comment_rating} / 10
+                      </span>
+                    </div>
+                  </div>
+                  <p className="px-6 py-3 h-full min-h-20">
+                    {comment.comment_content}
+                  </p>
+                </article>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-400 text-center py-2">
+              ❌ No hay comentarios disponible para esta película
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );

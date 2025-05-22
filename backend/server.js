@@ -51,7 +51,6 @@ server.post("/api/register", (req, res) => {
   });
 });
 
-
 // ✅ LOGIN
 server.post("/api/login", (req, res) => {
   const { email, password } = req.body;
@@ -77,6 +76,7 @@ server.post("/api/login", (req, res) => {
     });
   });
 });
+
 // ✅ ENDPOINT: Obtener reseñas por usuario
 server.get("/comment/user/:id", (req, res) => {
   const user_id = req.params.id;
@@ -123,6 +123,39 @@ server.post("/api/review", (req, res) => {
   database.query(sql, [rating, comment, movieId, movieName, userId], (err) => {
     if (err) return res.status(500).json({ error: "No se pudo guardar la reseña." });
     res.status(200).json({ message: "Comentario guardado correctamente." });
+  });
+});
+
+// ✅ ENDPOINT: Editar reseña
+server.put("/api/review/:commentId", (req, res) => {
+  const commentId = req.params.commentId;
+  const { comment, rating, userId } = req.body;
+
+  if (!comment || !rating || !userId) {
+    return res.status(400).json({ error: "Datos incompletos para la reseña." });
+  }
+
+  // Verificar que el usuario sea el dueño del comentario (opcional pero recomendable)
+  const checkOwnerSql = "SELECT id_user FROM comments WHERE comment_id = ?";
+  database.query(checkOwnerSql, [commentId], (err, results) => {
+    if (err) return res.status(500).json({ error: "Error en la base de datos." });
+    if (results.length === 0) return res.status(404).json({ error: "Comentario no encontrado." });
+
+    // Corregimos la comparación para que no falle por diferencia de tipos
+    if (results[0].id_user !== Number(userId)) return res.status(403).json({ error: "No autorizado." });
+
+    // Actualizar reseña
+    const updateSql = `
+      UPDATE comments SET comment_content = ?, comment_rating = ?
+      WHERE comment_id = ?
+    `;
+    database.query(updateSql, [comment, rating, commentId], (err) => {
+      if (err) {
+        console.error("Error al actualizar reseña:", err);
+        return res.status(500).json({ error: "Error al actualizar la reseña." });
+      }
+      res.status(200).json({ message: "Reseña actualizada correctamente." });
+    });
   });
 });
 

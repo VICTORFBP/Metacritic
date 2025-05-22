@@ -1,49 +1,88 @@
-import { Card, Input, Button, Rate, message } from "antd";
-import { useState } from "react";
-import axios from "axios";
+import { useState, useEffect } from "react";
+import { Input, Button, Rate, message } from "antd";
 
-const ReviewForm = ({ mediaId, mediaName }) => {
-  const [review, setReview] = useState("");
-  const [rating, setRating] = useState(0);
+const ReviewForm = ({ movieId, movieName, onReviewSubmitted, existingReview }) => {
+  // Si hay reseña existente, inicializamos los estados con sus valores
+  const [comment, setComment] = useState(existingReview ? existingReview.comment_content : "");
+  const [rating, setRating] = useState(existingReview ? existingReview.comment_rating : 0);
   const user = JSON.parse(localStorage.getItem("user"));
 
+  useEffect(() => {
+    if (existingReview) {
+      setComment(existingReview.comment_content);
+      setRating(existingReview.comment_rating);
+    }
+  }, [existingReview]);
+
   const handleSubmit = async () => {
-    if (!user) return message.warning("Debes iniciar sesión para comentar.");
+    if (!user) {
+      return message.warning("Debes iniciar sesión para comentar.");
+    }
 
     try {
-      await axios.post("http://localhost:8081/api/review", {
-        comment: review,
-        rating,
-        movieId: mediaId,
-        movieName: mediaName,
-        userId: user.user_id,
-      });
+      let res;
+      if (existingReview) {
+        // Editar reseña (PUT)
+        res = await fetch(`http://localhost:8081/api/review/${existingReview.comment_id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            comment,
+            rating,
+            userId: user.user_id,
+          }),
+        });
+      } else {
+        // Crear reseña (POST)
+        res = await fetch("http://localhost:8081/api/review", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            comment,
+            rating,
+            movieId,
+            movieName,
+            userId: user.user_id,
+          }),
+        });
+      }
 
-      message.success("Reseña enviada");
-      setReview("");
+      if (!res.ok) throw new Error("Error al enviar la reseña");
+
+      message.success(existingReview ? "Reseña editada correctamente" : "Reseña enviada correctamente");
+      setComment("");
       setRating(0);
+      onReviewSubmitted(); // Refresca comentarios
     } catch (err) {
-      message.error("Error al enviar reseña");
+      console.error(err);
+      message.error(existingReview ? "No se pudo editar la reseña" : "No se pudo enviar la reseña");
     }
   };
 
   return (
-    <Card className="bg-gray-900 p-4 rounded-lg shadow-md text-white mt-6">
+    <div className="bg-gray-800 p-4 rounded-lg shadow-md text-white mt-6">
+      <h3 className="text-xl font-bold mb-2">📝 {existingReview ? "Edita tu reseña" : "Escribe tu reseña"}</h3>
       <Input.TextArea
-        value={review}
-        onChange={(e) => setReview(e.target.value)}
-        placeholder="Escribe tu reseña..."
-        className="mb-2 bg-gray-800 text-white"
+        rows={4}
+        value={comment}
+        onChange={(e) => setComment(e.target.value)}
+        placeholder="¿Qué te pareció esta película?"
+        className="mb-3 bg-gray-700 text-white"
       />
-      <Rate onChange={setRating} value={rating} className="mb-2" />
+      <Rate
+        value={rating}
+        onChange={(value) => setRating(value)}
+        className="mb-3"
+      />
       <Button
         type="primary"
+        className="bg-blue-500"
+        disabled={!comment.trim() || rating === 0}
         onClick={handleSubmit}
-        disabled={!review.trim() || rating === 0}
       >
-        Enviar Reseña
+        {existingReview ? "Guardar Cambios" : "Enviar Reseña"}
       </Button>
-    </Card>
+    </div>
   );
 };
 

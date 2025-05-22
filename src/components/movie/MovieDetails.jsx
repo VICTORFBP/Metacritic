@@ -3,11 +3,16 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Spin, Button, Tag } from "antd";
 import { StarFilled, HeartOutlined, PlayCircleOutlined } from "@ant-design/icons";
+import ReviewForm from "./ReviewForm"; // Asegúrate de que esta ruta sea correcta
+
+const API_KEY = "TU_API_KEY";
+const BASE_URL = "https://api.themoviedb.org/3";
 
 const MovieDetails = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
+  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -94,6 +99,18 @@ const MovieDetails = () => {
               >
                 Ver en Streaming
               </Button>
+            )}
+          </div>
+
+          {/* Reseña del usuario */}
+          <div className="mt-10">
+            <h2 className="text-2xl font-semibold text-white mb-4">Tu Reseña</h2>
+            {user ? (
+              <ReviewForm mediaId={movie.id} mediaName={movie.title} />
+            ) : (
+              <p className="text-gray-400 italic">
+                Inicia sesión para dejar una reseña.
+              </p>
             )}
           </div>
         </div>

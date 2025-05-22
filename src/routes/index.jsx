@@ -9,7 +9,7 @@ import MoviesPage from "../pages/MoviePage";
 import SeriesPage from "../pages/SeriesPage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
-
+import SeriesDetailsPage from "../pages/SeriesDetailsPage";
 const router = createBrowserRouter([
   {
     path: "/", // Ruta principal
@@ -24,6 +24,7 @@ const router = createBrowserRouter([
       { path: "/series", element: <SeriesPage /> }, // Página de listado de series
       { path: "/login", element: <LoginPage /> }, // Página de login
       { path: "/register", element: <RegisterPage /> }, // Página de register
+      { path: "/tv/:id", element:<SeriesDetailsPage />}, 
     ],
   },
 ]);

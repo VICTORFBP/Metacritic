@@ -32,6 +32,7 @@ export const getPopularMedia = async (type = "movie", page = 1) => {
   }
 };
 
+
 /**
  * Obtener detalles de una película o serie.
  * @param {number} id - ID del contenido.
@@ -98,5 +99,6 @@ export const getMediaTrailer = async (id, type = "movie") => {
     return null;
   }
 };
+
 
 export default apiService;

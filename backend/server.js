@@ -1,76 +1,91 @@
-const express = require("express")
-const mysql = require("mysql")
-const cors = require("cors")
+const express = require("express");
+const mysql = require("mysql");
+const cors = require("cors");
 
-const server = express()
-server.use(cors())
+const server = express();
+server.use(cors());
+server.use(express.json());
 
 const database = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
   database: "metacritic",
-})
+});
 
-server.get("/comment/user/:id", (req, res) => {
-  const user_id = req.params.id;
-  const sql = `SELECT comment_movieid, comment_moviename, comment_content, comment_rating FROM comments WHERE id_user=${user_id}`;
+database.connect((err) => {
+  if (err) {
+    console.error("Error al conectar a la base de datos:", err);
+  } else {
+    console.log("Conexión exitosa a MySQL");
+  }
+});
 
-  database.query(sql, (err, data) => {
-    if (err) {
-      console.log(err)
-      return []
-    };
-    return res.json(data)
-  })
-})
+// ✅ REGISTRO
+server.post("/api/register", (req, res) => {
+  const { name, lastname, age, email, password } = req.body;
 
-server.get("/comment/movie/:id", (req, res) => {
-  const movie_id = req.params.id;
+  if (!name || !lastname || !age || !email || !password) {
+    return res.status(400).json({ error: "Todos los campos son obligatorios." });
+  }
 
-  const sql = `
-    SELECT 
-      comment_content, comment_rating, comment_movieid, comment_moviename,
-      user_id, user_name, user_lastname
-    FROM comments 
-    JOIN users ON id_user = users.user_id 
-    WHERE comment_movieid=${movie_id}
-  `;
+  const checkEmail = "SELECT * FROM users WHERE user_email = ?";
+  database.query(checkEmail, [email], (err, result) => {
+    if (err) return res.status(500).json({ error: "Error en la base de datos." });
 
-  database.query(sql, (err, data) => {
-    if (err) {
-      console.log(err)
-      return []
-    };
-    return res.json(data)
-  })
-})
+    if (result.length > 0) {
+      return res.status(400).json({ error: "El correo ya está registrado." });
+    }
 
-server.get("/comments/", (req, res) => {
-  const sql = "SELECT comment_movieid, comment_moviename, comment_content, comment_rating FROM comments";
+    const defaultRole = 2;
 
-  database.query(sql, (err, data) => {
-    if (err) {
-      console.log(err)
-      return []
-    };
+    const insertQuery = `
+      INSERT INTO users (user_name, user_lastname, user_age, user_email, user_password, id_role)
+      VALUES (?, ?, ?, ?, ?, ?)
+    `;
 
-    return res.json(data)
-  })
-})
+    database.query(
+      insertQuery,
+      [name, lastname, age, email, password, defaultRole],
+      (err, result) => {
+        if (err) {
+          console.error("Error al registrar:", err);
+          return res.status(500).json({ error: "Error al registrar el usuario." });
+        }
 
-server.get("/user/:user_id", (req, res) => {
-  const user_id = req.params.user_id;
+        return res.status(200).json({ message: "Usuario registrado correctamente." });
+      }
+    );
+  });
+});
 
-  const sql = `SELECT user_name, user_age, user_lastname FROM users WHERE user_id='${user_id}'`
 
-  database.query(sql, (err, data) => {
-    if (err) {
-      console.log(err)
-      return []
-    };
-    return res.json(data)
-  })
-})
+// ✅ LOGIN
+server.post("/api/login", (req, res) => {
+  const { email, password } = req.body;
 
-server.listen(8081, () => { console.log("Escuchando...") })
+  if (!email || !password) {
+    return res.status(400).json({ error: "Correo y contraseña requeridos." });
+  }
+
+  const loginQuery = "SELECT * FROM users WHERE user_email = ? AND user_password = ?";
+  database.query(loginQuery, [email, password], (err, result) => {
+    if (err) return res.status(500).json({ error: "Error en la base de datos." });
+
+    if (result.length === 0) {
+      return res.status(401).json({ error: "Credenciales inválidas." });
+    }
+
+    const user = result[0];
+    res.status(200).json({
+      user_id: user.user_id,
+      username: user.user_name,
+      email: user.user_email,
+      role: user.id_role,
+    });
+  });
+});
+
+server.listen(8081, () => {
+  console.log("Servidor corriendo en http://localhost:8081");
+});

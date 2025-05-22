@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { UserOutlined } from "@ant-design/icons";
-import logo from "../../assets/logoapp.png";
+import logo from "../../assets/logoApp.png";
 import { Button } from "antd";
 import SearchBar from "../movie/SearchBar";
 

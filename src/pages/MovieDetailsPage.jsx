@@ -41,10 +41,10 @@ const MovieDetailsPage = () => {
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    fetch(API_URL + id)
-      .then((result) => result.json())
+    fetch(`http://localhost:8081/comment/movie/${id}`) // o `/series/${id}` si haces distinción
+      .then((res) => res.json())
       .then((data) => setComments(data))
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
   }, [id]);
 
   // Mostrar indicador de carga

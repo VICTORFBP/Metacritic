@@ -2,13 +2,13 @@ import { Card, Input, Button, Rate, message } from "antd";
 import { useState } from "react";
 import axios from "axios";
 
-const ReviewForm = ({ mediaId, mediaType, mediaName }) => {
+const ReviewForm = ({ mediaId, mediaName }) => {
   const [review, setReview] = useState("");
   const [rating, setRating] = useState(0);
   const user = JSON.parse(localStorage.getItem("user"));
 
   const handleSubmit = async () => {
-    if (!user) return message.warning("Inicia sesión para dejar una reseña.");
+    if (!user) return message.warning("Debes iniciar sesión para comentar.");
 
     try {
       await axios.post("http://localhost:8081/api/review", {
@@ -19,16 +19,16 @@ const ReviewForm = ({ mediaId, mediaType, mediaName }) => {
         userId: user.user_id,
       });
 
-      message.success("Reseña enviada correctamente");
+      message.success("Reseña enviada");
       setReview("");
       setRating(0);
-    } catch (error) {
-      message.error("Error al enviar la reseña");
+    } catch (err) {
+      message.error("Error al enviar reseña");
     }
   };
 
   return (
-    <Card className="bg-gray-900 p-4 rounded-lg shadow-md text-white">
+    <Card className="bg-gray-900 p-4 rounded-lg shadow-md text-white mt-6">
       <Input.TextArea
         value={review}
         onChange={(e) => setReview(e.target.value)}
